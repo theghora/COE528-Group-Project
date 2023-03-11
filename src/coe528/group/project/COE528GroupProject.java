@@ -46,6 +46,7 @@ public class COE528GroupProject extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+        System.out.println("git test");
     }
     
 }
