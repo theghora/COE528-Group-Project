@@ -25,7 +25,7 @@ public class userWindow /*extends Stage*/ {
     StackPane window;
     Text welcome_l;
     VBox vbox;
-    Stage stage;
+    Scene scene;
 
     
     private static userWindow instance;
@@ -40,16 +40,14 @@ public class userWindow /*extends Stage*/ {
         window = new StackPane();       
         window.getChildren().add(vbox);
         
-        Scene scene = new Scene(window, 300, 250);
+        scene = new Scene(window, 800, 600);
         
-        stage = new Stage();
-        
-        stage.setTitle("Bookstore App");
-        stage.setScene(scene);        
+            
     }
     
-    public void show(){
-        stage.show();
+    public void show(String username){
+        COE528GroupProject.p.setTitle("User Window");
+        COE528GroupProject.p.setScene(scene);
     }
     
     static userWindow getInstance(){

@@ -25,6 +25,8 @@ import javafx.stage.Stage;
  */
 public class COE528GroupProject extends Application {
     
+    static Stage p;
+    
     @Override
     public void start(Stage primaryStage) {
    
@@ -44,6 +46,8 @@ public class COE528GroupProject extends Application {
                 loginHandler.enter(username.getText(), password.getText()); 
             }
         });
+        
+        p = primaryStage;
         
         VBox vbox = new VBox();
         
