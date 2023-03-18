@@ -33,13 +33,18 @@ abstract class User {
     public void setPassword(String u){
         this.password = u;
     }
-    
+
+}
     class Customer extends User {
         
         protected int points;
         
-        //this should be an enum if there are a limited number of states
-        protected String status;
+        protected Status status;
+        
+        enum Status {
+            SILVER,
+            GOLD
+        }
         
         public Customer(String u, String p) {
             super(u, p);
@@ -49,7 +54,7 @@ abstract class User {
             return points;
         }
         
-        public String getStatus(){
+        public Status getStatus(){
             return status;
         }
         
@@ -57,12 +62,12 @@ abstract class User {
             this.points = p;
         }
         
-        public void setStatus(String s){
+        public void setStatus(Status s){
             //Storing state in strings is yanderedev-tier
             this.status = s;
         }
     }
-    
+
     class Admin extends User {
         
         public Admin(String u, String p) {
@@ -70,4 +75,3 @@ abstract class User {
         }
         
     } 
-}
