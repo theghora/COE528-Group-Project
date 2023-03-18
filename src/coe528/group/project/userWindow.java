@@ -5,7 +5,11 @@
  */
 package coe528.group.project;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -26,6 +30,8 @@ public class userWindow /*extends Stage*/ {
     Text welcome_l;
     VBox vbox;
     Scene scene;
+    
+    Button logoutButton;
 
     
     private static userWindow instance;
@@ -33,9 +39,24 @@ public class userWindow /*extends Stage*/ {
     private userWindow(){
         //set up all the ui bs here
         welcome_l = new Text("perfectly safe for work test paragraph that certainly contains no bad words");
+        
+        logoutButton = new Button();
+        logoutButton.setText("Log Out");
+        logoutButton.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("Logged out");
+                loginWindow.getInstance().show();
+            }
+        });
+        
         vbox = new VBox();
         
+        vbox.setAlignment(Pos.CENTER);
+        
         vbox.getChildren().add(welcome_l);
+        vbox.getChildren().add(logoutButton);
        
         window = new StackPane();       
         window.getChildren().add(vbox);
