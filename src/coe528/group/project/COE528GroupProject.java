@@ -5,12 +5,14 @@
  */
 package coe528.group.project;
 
+import javafx.scene.control.TextField;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -21,9 +23,9 @@ public class COE528GroupProject extends Application {
     
     @Override
     public void start(Stage primaryStage) {
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
+        Button loginButton = new Button();
+        loginButton.setText("Say 'Hello World'");
+        loginButton.setOnAction(new EventHandler<ActionEvent>() {
             
             @Override
             public void handle(ActionEvent event) {
@@ -31,12 +33,24 @@ public class COE528GroupProject extends Application {
             }
         });
         
+        TextField username = new TextField();
+        TextField password = new TextField();
+        
+        VBox vbox = new VBox();
+        
         StackPane root = new StackPane();
-        root.getChildren().add(btn);
+        
+        vbox.getChildren().add(username);
+        vbox.getChildren().add(password);
+        vbox.getChildren().add(loginButton);
+        
+        root.getChildren().add(vbox);
+        //root.getChildren().add(username);
+       // root.getChildren().add(loginButton);
         
         Scene scene = new Scene(root, 300, 250);
         
-        primaryStage.setTitle("Hello World!");
+        primaryStage.setTitle("Bookstore App");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
