@@ -5,7 +5,6 @@
  */
 package coe528.group.project;
 
-import static coe528.group.project.COE528GroupProject.p;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -17,12 +16,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  *
  * @author super
  */
-public class loginWindow {
+public class loginWindow implements showable {
     
     private static loginWindow instance;
     
@@ -32,6 +32,7 @@ public class loginWindow {
     Button loginButton;
     StackPane root;
     Scene scene;
+    Stage stage;
     
     private loginWindow(){
         //suffixing strings with "_l"
@@ -47,7 +48,7 @@ public class loginWindow {
             @Override
             public void handle(ActionEvent event) {
                 System.out.println("attempted login with username: \"" + username.getText() + "\" password: \""+ password.getText()+"\"");
-                loginHandler.enter(username.getText(), password.getText()); 
+                loginHandler.enter(username.getText(), password.getText(), stage); 
             }
         });
                 
@@ -83,9 +84,12 @@ public class loginWindow {
         }
     }
     
-    public void show(){
-        COE528GroupProject.p.setTitle("Login Window");
-        COE528GroupProject.p.setScene(scene);    
+
+    @Override
+    public void show(Stage p) {
+        p.setTitle("Login Window");
+        p.setScene(scene);
+        stage = p;
     }
     
 }

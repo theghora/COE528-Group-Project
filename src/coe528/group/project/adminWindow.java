@@ -15,7 +15,7 @@ import javafx.stage.Stage;
  *
  * @author super
  */
-public class adminWindow /*extends Stage*/ {
+public class adminWindow implements showable /*extends Stage*/ {
     //SINGLETON!!!!!!!
     //but not really
     //no it isn't
@@ -26,6 +26,7 @@ public class adminWindow /*extends Stage*/ {
     Text welcome_l;
     VBox vbox;
     Scene scene;
+    Stage stage;
 
     
     private static adminWindow instance;
@@ -44,9 +45,10 @@ public class adminWindow /*extends Stage*/ {
            
     }
     
-    public void show(String username){
-        COE528GroupProject.p.setTitle("Admin Window");
-        COE528GroupProject.p.setScene(scene);    
+    public void show(Stage p){
+        p.setTitle("Admin Window");
+        p.setScene(scene);
+        stage = p;
     }
     
     static adminWindow getInstance(){

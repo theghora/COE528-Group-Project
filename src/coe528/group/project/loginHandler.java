@@ -5,6 +5,8 @@
  */
 package coe528.group.project;
 
+import javafx.stage.Stage;
+
 /**
  *
  * @author super
@@ -19,14 +21,14 @@ public class loginHandler {
     //because its easier to have separate classes for the user's window and the
     //admin's window than make a single class adapt
     
-    public static boolean enter(String username, String password){
+    public static boolean enter(String username, String password, Stage p){
         
         if(username.equals("user")){
             //do something
-            userWindow.getInstance().show(username);
+            userWindow.getInstance().show(p);
         }else if(username.equals("admin")){
             //do something else
-            adminWindow.getInstance().show(username);
+            adminWindow.getInstance().show(p);
         }
         
         return true;

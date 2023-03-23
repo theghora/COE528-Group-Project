@@ -19,7 +19,7 @@ import javafx.stage.Stage;
  *
  * @author super
  */
-public class userWindow /*extends Stage*/ {
+public class userWindow implements showable /*extends Stage*/ {
     //SINGLETON!!!!!!!
     //but not really
     //no it isn't
@@ -30,6 +30,7 @@ public class userWindow /*extends Stage*/ {
     Text welcome_l;
     VBox vbox;
     Scene scene;
+    Stage stage;
     
     Button logoutButton;
 
@@ -47,7 +48,7 @@ public class userWindow /*extends Stage*/ {
             @Override
             public void handle(ActionEvent event) {
                 System.out.println("Logged out");
-                loginWindow.getInstance().show();
+                loginWindow.getInstance().show(stage);
             }
         });
         
@@ -66,9 +67,10 @@ public class userWindow /*extends Stage*/ {
             
     }
     
-    public void show(String username){
-        COE528GroupProject.p.setTitle("User Window");
-        COE528GroupProject.p.setScene(scene);
+    public void show(Stage p){
+        p.setTitle("User Window");
+        p.setScene(scene);
+        stage = p;
     }
     
     static userWindow getInstance(){
