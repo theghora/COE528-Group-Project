@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -29,7 +30,7 @@ public class loginWindow implements showable {
     Text username_l, password_l;
     TextField username;
     PasswordField password;
-    Button loginButton;
+    Button loginButton, closeButton;
     StackPane root;
     Scene scene;
     Stage stage;
@@ -51,7 +52,28 @@ public class loginWindow implements showable {
                 loginHandler.enter(username.getText(), password.getText(), stage); 
             }
         });
-                
+        
+        closeButton = new Button();
+        closeButton.setText("Exit");
+        closeButton.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("Goodbye!");
+                System.exit(0);
+            }
+        });
+        
+        //creating a horizontal box to hold both buttons
+        HBox hbox = new HBox();
+        
+        hbox.setAlignment(Pos.CENTER);
+        hbox.setSpacing(16);
+        
+        hbox.getChildren().add(loginButton);
+        hbox.getChildren().add(closeButton);
+        
+        //creating a vertical box which will hold most of the objects
         VBox vbox = new VBox();
         
         vbox.setAlignment(Pos.CENTER);
@@ -63,7 +85,7 @@ public class loginWindow implements showable {
         vbox.getChildren().add(username);
         vbox.getChildren().add(password_l);
         vbox.getChildren().add(password);
-        vbox.getChildren().add(loginButton);
+        vbox.getChildren().add(hbox);
         
         
         root = new StackPane();    

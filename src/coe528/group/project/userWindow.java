@@ -7,6 +7,7 @@ package coe528.group.project;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -54,7 +55,10 @@ public class userWindow implements showable /*extends Stage*/ {
         
         vbox = new VBox();
         
+        //Alignment and Spacing
         vbox.setAlignment(Pos.CENTER);
+        vbox.setPadding(new Insets(16));
+        vbox.setSpacing(16);
         
         vbox.getChildren().add(welcome_l);
         vbox.getChildren().add(logoutButton);
