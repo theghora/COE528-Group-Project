@@ -20,20 +20,14 @@ import javafx.stage.Stage;
  *
  * @author super
  */
-public class adminWindow implements showable /*extends Stage*/ {
-    //SINGLETON!!!!!!!
-    //but not really
-    //no it isn't
-    //actually it is
+public class adminWindow extends singletonWindow {
     
+    String title = "Admin Window";
     
-    StackPane window;
     Text welcome_l;
     VBox vbox;
-    Scene scene;
-    Stage stage;
     
-    Button logoutButton;
+    Button books, customers, logoutButton;
 
     
     private static adminWindow instance;
@@ -41,6 +35,28 @@ public class adminWindow implements showable /*extends Stage*/ {
     private adminWindow(){
         //set up all the ui bs here
         welcome_l = new Text("Congrat! Yo discover admin window!");
+        
+        books = new Button();
+        books.setText("Books");
+        books.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("books button clicked");
+                //do something
+            }
+        });
+        
+        customers = new Button();
+        customers.setText("Customers");
+        customers.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("customers button clicked");
+                //do something
+            }
+        });
         
         logoutButton = new Button();
         logoutButton.setText("Log Out");
@@ -61,6 +77,9 @@ public class adminWindow implements showable /*extends Stage*/ {
         vbox.setSpacing(16);
         
         vbox.getChildren().add(welcome_l);
+        vbox.getChildren().add(books);
+        vbox.getChildren().add(customers);
+
         vbox.getChildren().add(logoutButton);
        
         window = new StackPane();       
@@ -70,11 +89,6 @@ public class adminWindow implements showable /*extends Stage*/ {
            
     }
     
-    public void show(Stage p){
-        p.setTitle("Admin Window");
-        p.setScene(scene);
-        stage = p;
-    }
     
     static adminWindow getInstance(){
         if(instance != null){

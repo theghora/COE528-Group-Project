@@ -23,17 +23,16 @@ import javafx.stage.Stage;
  *
  * @author super
  */
-public class loginWindow implements showable {
+public class loginWindow extends singletonWindow {
     
     private static loginWindow instance;
+    
+    String title = "Login Window";
     
     Text username_l, password_l;
     TextField username;
     PasswordField password;
     Button loginButton, closeButton;
-    StackPane root;
-    Scene scene;
-    Stage stage;
     
     private loginWindow(){
         //suffixing strings with "_l"
@@ -88,12 +87,10 @@ public class loginWindow implements showable {
         vbox.getChildren().add(hbox);
         
         
-        root = new StackPane();    
-        root.getChildren().add(vbox);
-        //root.getChildren().add(username);
-       // root.getChildren().add(loginButton);
+        window = new StackPane();    
+        window.getChildren().add(vbox);
         
-        scene = new Scene(root, 300, 250);
+        scene = new Scene(window, 300, 250);
         
     }
     
@@ -104,14 +101,6 @@ public class loginWindow implements showable {
             instance = new loginWindow();
             return getInstance();
         }
-    }
-    
-
-    @Override
-    public void show(Stage p) {
-        p.setTitle("Login Window");
-        p.setScene(scene);
-        stage = p;
     }
     
 }

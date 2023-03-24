@@ -26,7 +26,7 @@ public class loginHandler {
         if(username.equals("user")){
             //do something
             userWindow.getInstance().show(p);
-        }else if(username.equals("admin")){
+        }else if(username.equals("admin") && password.equals("admin")){
             //do something else
             adminWindow.getInstance().show(p);
         }

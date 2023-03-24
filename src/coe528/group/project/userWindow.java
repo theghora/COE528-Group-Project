@@ -20,18 +20,12 @@ import javafx.stage.Stage;
  *
  * @author super
  */
-public class userWindow implements showable /*extends Stage*/ {
-    //SINGLETON!!!!!!!
-    //but not really
-    //no it isn't
-    //actually it is
+public class userWindow extends singletonWindow {
     
+    String title = "User Window";
     
-    StackPane window;
     Text welcome_l;
     VBox vbox;
-    Scene scene;
-    Stage stage;
     
     Button logoutButton;
 
