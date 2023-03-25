@@ -37,8 +37,9 @@ class User {
 //            GOLD
 //        }
         
-        public Customer(String u, String p) {
+        public Customer(String u, String p, int points) {
             super(u, p);
+            this.points=points;
         }
         
         public int getPoints(){
