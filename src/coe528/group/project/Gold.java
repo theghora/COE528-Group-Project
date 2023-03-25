@@ -9,21 +9,27 @@ package coe528.group.project;
  *
  * @author tahag
  */
-class Gold extends State{
-    protected void setGold(Customer C){
-        if (C.getPoints()>=1000){
-            //cast state class to gold class
+class Gold extends State{    
+    @Override
+    protected void setSilver(Customer C) {
+        if(C.getPoints()< 1000){
+            C.setStatus(new Silver());
+         }else{
+            setGold(C);
         }
     }
-    protected void setSilver(Customer C){
-        if (C.getPoints()<1000){
-            //cast state class to silver class
+    @Override
+    protected void setGold(Customer C) {
+        if(C.getPoints()>= 1000){
+             C.setStatus(new Gold());
+         }else{
+            setSilver(C);
         }
     }
 
     @Override
     public String toString() {
-        return super.toString(); 
+        return "Gold"; 
     }
     
 }

@@ -5,14 +5,10 @@ package coe528.group.project;
  *
  * @author tahag
  */
-public class State {
+public abstract class State {
     
-    protected void setGold(Customer C){
-        
-    }
-    protected void setSilver(Customer C){
-        
-    }
+    protected abstract void setGold(Customer C);
+    protected abstract void setSilver(Customer C);
     
 }
  
