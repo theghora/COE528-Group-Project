@@ -18,6 +18,15 @@ import java.util.ArrayList;
  */
 public class bookHandler {
     
+    //test main
+    public static void main(String[] args) {
+        bookHandler test = new bookHandler();
+        test.createBook(1600, "Don Quixote");
+        test.createBook(1200, "Dream of the Red Chamber");
+        test.createBook(900, "Moby Dick");
+        test.export();
+    }
+    
     class book{
         int price;
         String title;
@@ -33,11 +42,15 @@ public class bookHandler {
         }
         @Override
         public String toString(){
-            return ""+price+" "+title;
+            return ""+price+"#$"+title;
         }
     }
     
     ArrayList<book> bookDB;
+    
+    bookHandler(){
+        bookDB = new ArrayList<book>();
+    }
     
     public boolean reload(){
         try {
@@ -45,7 +58,9 @@ public class bookHandler {
             String s;
             for(;;){
                 s = read.readLine();
-                s.split(" ", 1);
+                
+                createBook(Integer.parseInt(s.split("#$")[0]), s.split("#$")[1]);
+
                 if(s != null){
                 System.out.println(s);
                 }else{
@@ -65,6 +80,7 @@ public class bookHandler {
             BufferedWriter write = new BufferedWriter(new FileWriter("books.txt", true));
             for(book x: bookDB){
                 write.append(x.toString(), 0, x.toString().length());
+                System.out.println(x.toString());
             }
             write.close();
             return true;
