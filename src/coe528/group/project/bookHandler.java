@@ -5,7 +5,9 @@
  */
 package coe528.group.project;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,7 +40,24 @@ public class bookHandler {
     ArrayList<book> bookDB;
     
     public boolean reload(){
-        
+        try {
+            BufferedReader read = new BufferedReader(new FileReader("books.txt"));
+            String s;
+            for(;;){
+                s = read.readLine();
+                s.split(" ", 1);
+                if(s != null){
+                System.out.println(s);
+                }else{
+                    break;
+                }
+            }
+            return true;
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+            return false;
+        }
     }
     
     public boolean export(){
