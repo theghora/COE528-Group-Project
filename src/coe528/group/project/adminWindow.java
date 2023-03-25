@@ -5,12 +5,15 @@
  */
 package coe528.group.project;
 
+import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -42,6 +45,7 @@ public class adminWindow extends singletonWindow {
             
             @Override
             public void handle(ActionEvent event) {
+                adminBookWindow.getInstance().show(stage);
                 System.out.println("books button clicked");
                 //do something
             }
@@ -103,9 +107,67 @@ public class adminWindow extends singletonWindow {
 
 class adminBookWindow extends singletonWindow {
     
+    VBox mainVertical, subVertical;
+    HBox bottomButtons;
+    ArrayList<HBox> listItems;
+    Button delete,back;
+    
+    String title = "Book Window";
+    
     private static adminBookWindow instance;
     
-    private adminBookWindow(){}
+    private adminBookWindow(){
+        
+        mainVertical = new VBox();
+        subVertical = new VBox();
+        bottomButtons = new HBox();
+        
+        
+        
+        back = new Button();
+        
+        back.setText("Back");
+        back.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                adminWindow.getInstance().show(stage);
+                System.out.println("back button clicked");
+                //do something
+            }
+        });
+        back.setMinWidth(60);
+        
+        bottomButtons.getChildren().add(back);
+        
+        Region spacer = new Region();
+        spacer.setPrefWidth(800);
+        bottomButtons.getChildren().add(spacer);
+
+        
+        delete = new Button();
+        
+        delete.setText("Delete");
+        delete.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("delete button clicked");
+                //do something
+            }
+        });
+        delete.setMinWidth(60);
+        
+        bottomButtons.getChildren().add(delete);
+        
+        mainVertical.getChildren().add(subVertical);
+        mainVertical.getChildren().add(bottomButtons);
+        
+        window = new StackPane();       
+        window.getChildren().add(mainVertical);
+        
+        scene = new Scene(window, 800, 600);
+    }
     
     static adminBookWindow getInstance(){
         if(instance != null){
