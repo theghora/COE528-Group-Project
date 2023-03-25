@@ -30,12 +30,12 @@ class User {
         
         protected int points;
         
-        protected Status status;
+        protected State Status;
         
-        enum Status {
-            SILVER,
-            GOLD
-        }
+//        enum Status {
+//            SILVER,
+//            GOLD
+//        }
         
         public Customer(String u, String p) {
             super(u, p);
@@ -45,17 +45,33 @@ class User {
             return points;
         }
         
-        public Status getStatus(){
-            return status;
+        public State getStatus(){
+            return Status;
         }
         
         public void setPoints(int p){
             this.points = p;
         }
         
-        public void setStatus(Status s){
+        public void setStatus(State s){
             //Storing state in strings is yanderedev-tier
-            this.status = s;
+            this.Status=s;
+        }
+        
+        public void buy(double totalCost){
+            
+        }
+        
+        public double redeemPointsBuy(double totalcost){
+            return points;
+        }
+        
+        protected void setGold(){
+            Status.setGold(this);
+        }
+        
+        protected void setSilver(){
+            Status.setSilver(this);
         }
     }
 
