@@ -101,3 +101,20 @@ public class adminWindow extends singletonWindow {
     
 }
 
+class adminBookWindow extends singletonWindow {
+    
+    private static adminBookWindow instance;
+    
+    private adminBookWindow(){}
+    
+    static adminBookWindow getInstance(){
+        if(instance != null){
+            return instance;
+        }else{
+            instance = new adminBookWindow();
+            return getInstance();
+        }
+    }
+    
+}
+

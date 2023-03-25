@@ -23,6 +23,8 @@ public class loginHandler {
     
     public static boolean enter(String username, String password, Stage p){
         
+        //loginhandler 
+        
         if(username.equals("user")){
             //do something
             userWindow.getInstance().show(p);

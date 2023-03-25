@@ -29,6 +29,8 @@ public class userWindow extends singletonWindow {
     
     Button logoutButton;
 
+    User user;
+    
     
     private static userWindow instance;
     
