@@ -95,4 +95,9 @@ public class bookHandler {
     public void createBook(int p, String t){
         bookDB.add(new book(p,t));
     }
+    
+    public ArrayList getBookDB(){
+        //yes this exposes the rep now stfu
+        return bookDB;
+    }
 }
