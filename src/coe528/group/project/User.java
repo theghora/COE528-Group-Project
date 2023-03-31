@@ -32,14 +32,15 @@ class User {
         
         protected State Status;
         
-//        enum Status {
-//            SILVER,
-//            GOLD
-//        }
         
         public Customer(String u, String p, int points) {
             super(u, p);
             this.points=points;
+            if(points <1000){
+                this.Status=new Silver();
+            }else{
+                this.Status=new Gold();
+            }
         }
         
         public int getPoints(){
@@ -55,16 +56,35 @@ class User {
         }
         
         public void setStatus(State s){
-            //Storing state in strings is yanderedev-tier
             this.Status=s;
         }
         
         public void buy(double totalCost){
-            
+            points += (int)(totalCost * 10);
+            if(points <1000){
+                setGold();
+            }else{
+                setSilver();
+            }
         }
         
         public double redeemPointsBuy(double totalcost){
-            return points;
+            double redeemed = points/100;
+            points =0;
+            
+            totalcost -=redeemed;
+            if(totalcost < 0) {
+                points = (int)(-totalcost)*100;
+                totalcost = 0.0;
+            }
+            points = points + (int)(totalcost * 10);
+
+            if(points < 1000){
+                setSilver();}
+            else{
+                setGold();}
+
+            return totalcost;
         }
         
         protected void setGold(){
