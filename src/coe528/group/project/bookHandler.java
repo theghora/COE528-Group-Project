@@ -18,7 +18,6 @@ public class bookHandler {
         test.export();*/
     }
     
-
     public class book {
 
         private String title;
@@ -65,27 +64,17 @@ public class bookHandler {
 
     bookHandler(){
         bookDB = new ArrayList<book>();
-
-        bookDB.add(new book(10, "Book 1"));
-        bookDB.add(new book(10, "Book ew"));
+        reload();
     }
 
-    
     public boolean reload(){
         try {
             BufferedReader read = new BufferedReader(new FileReader("books.txt"));
             String s;
-            for(;;){
-                s = read.readLine();
-                
-                createBook(Integer.parseInt(s.split("#$")[0]), s.split("#$")[1]);
-                
-                if(s != null){
-                System.out.println(s);
-                }else{
-                    break;
-                }
+            while((s = read.readLine()) != null){
+                createBook(Integer.parseInt(s.split("#\\$")[0]), s.split("#\\$")[1]);
             }
+            read.close();
             return true;
         } catch (IOException e) {
             System.out.println("An error occurred.");
@@ -93,7 +82,7 @@ public class bookHandler {
             return false;
         }
     }
-    
+
     public boolean export(){
         try {
             BufferedWriter write = new BufferedWriter(new FileWriter("books.txt", true));
@@ -103,7 +92,6 @@ public class bookHandler {
             }
             write.close();
             return true;
-        // Write the code here
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
