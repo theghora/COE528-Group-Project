@@ -185,7 +185,7 @@ public class userWindow extends singletonWindow {
         
         Label TC = new Label("Total Cost: " + (int)customer.redeemPointsBuy(totalCost));
 
-        Label points_status = new Label("Points: " );
+        Label points_status = new Label("Points: " + customer.getPoints() + ", " + "Status: " + customer.getStatus());
 
         VBox vbox = new VBox(10);
         vbox.getChildren().addAll(TC, points_status, logoutButton);
