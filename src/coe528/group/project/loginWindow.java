@@ -98,5 +98,5 @@ public class loginWindow extends singletonWindow {
             return getInstance();
         }
     }
-    
+     
 }
