@@ -39,6 +39,7 @@ public class loginHandler {
             scanner.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            System.exit(1);
         }
 
         return false;
