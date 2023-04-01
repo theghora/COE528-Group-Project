@@ -43,24 +43,16 @@ public class loginWindow extends singletonWindow {
         
         loginButton = new Button();
         loginButton.setText("Login");
-        loginButton.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("attempted login with username: \"" + username.getText() + "\" password: \""+ password.getText()+"\"");
-                loginHandler.enter(username.getText(), password.getText(), stage); 
-            }
+        loginButton.setOnAction((ActionEvent event) -> {
+            System.out.println("attempted login with username: \"" + username.getText() + "\" password: \""+ password.getText()+"\"");
+            loginHandler.enter(username.getText(), password.getText(), stage);
         });
         
         closeButton = new Button();
         closeButton.setText("Exit");
-        closeButton.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Goodbye!");
-                System.exit(0);
-            }
+        closeButton.setOnAction((ActionEvent event) -> {
+            System.out.println("Goodbye!");
+            System.exit(0);
         });
         
         //creating a horizontal box to hold both buttons
