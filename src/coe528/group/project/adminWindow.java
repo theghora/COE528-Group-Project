@@ -6,6 +6,15 @@
 package coe528.group.project;
 
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.lang.Object;
+import java.io.Writer;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -18,6 +27,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  *
@@ -72,6 +82,8 @@ public class adminWindow extends singletonWindow {
                 loginWindow.getInstance().show(stage);
             }
         });
+
+        
         
         vbox = new VBox();
         
@@ -90,18 +102,38 @@ public class adminWindow extends singletonWindow {
         window.getChildren().add(vbox);
         
         scene = new Scene(window, 800, 600);
-           
+
+/*         //if(instance !=null){           //if window is closed from admin window
+            stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST,
+                    this::closeWindowEvent);        
     }
+      public void closeWindowEvent(WindowEvent event) {              //deletes contents of books and customers files
+        System.out.println("Window close request ...");
+        try {
+            FileWriter C = new FileWriter("customers.txt",false);
+            PrintWriter Cw = new PrintWriter(C, false);
+            FileWriter B = new FileWriter("books.txt",false);
+            PrintWriter Bw = new PrintWriter(B, false);
+            Cw.flush();
+            Cw.close();
+            C.close();
+            Bw.flush();
+            Bw.close();
+            B.close();
+        }catch(Exception e){
+           e.printStackTrace();
+        }
+    } */
     
-    
-    static adminWindow getInstance(){
-        if(instance != null){
+    static adminWindow getInstance() {
+        if (instance != null) {
             return instance;
-        }else{
+        } else {
             instance = new adminWindow();
             return getInstance();
         }
     }
+  
     
 }
 
