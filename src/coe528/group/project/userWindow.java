@@ -1,7 +1,6 @@
 package coe528.group.project;
 
 import coe528.group.project.bookHandler.book;
-import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,6 +9,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -17,6 +17,7 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -24,25 +25,26 @@ public class userWindow extends singletonWindow {
     
     String title = "User Window";
     
-    Text welcome_l;
+    Text welcome;
     VBox vbox;
     
     Button logoutButton;
     Button buyButton;
     Button redeemButton;
     
-    User user;
-    Customer customer = new Customer("user", "user", 0);
-    
     private static userWindow instance;
     
     private TableView<book> bookTable = new TableView<book>();
+    
     bookHandler handler = new bookHandler();
-    ArrayList<bookHandler.book> books = handler.getBookDB();
-    ObservableList<book> data = FXCollections.observableArrayList();
+    ObservableList<book> data = FXCollections.observableArrayList(handler.getBookDB());
 
-    private userWindow(){        
-        welcome_l = new Text("Welcome");
+    Customer customer = loginHandler.getInstance().getCurrentCustomer();
+    
+    private userWindow(){     
+        
+        welcome = new Text("Welcome " + customer.getUsername() + ". You have " + customer.getPoints() + " points. Your status is " + customer.getStatus() + ".");
+        welcome.setFont(new Font("Times New Roman", 15));
 
         bookTable.setEditable(true);
         
@@ -57,14 +59,11 @@ public class userWindow extends singletonWindow {
         TableColumn selectCol = new TableColumn("Select");
         selectCol.setMinWidth(25);
         selectCol.setCellFactory(CheckBoxTableCell.forTableColumn(selectCol));
-        selectCol.setCellValueFactory(new PropertyValueFactory<book,Boolean>("selected"));
+        selectCol.setCellValueFactory(new PropertyValueFactory<book,CheckBox>("selected"));
 
-        for (int i = 0; i < books.size(); i++) {
-            data.add(books.get(i));
-        }
          
         bookTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        
+
         bookTable.setItems(data);
         bookTable.getColumns().addAll(nameCol, priceCol, selectCol);
 
@@ -95,27 +94,24 @@ public class userWindow extends singletonWindow {
             stage.setScene(new Scene(customerCostScreenRedeem(), 400, 200));
             }
         });
-
-                
+        
         vbox = new VBox();
         
-        //Alignment and Spacing
+        // Alignment and Spacing
         vbox.setAlignment(Pos.CENTER);
         vbox.setPadding(new Insets(16));
         vbox.setSpacing(16);
         
-        vbox.getChildren().add(welcome_l);
+        vbox.getChildren().add(welcome);
         vbox.getChildren().add(bookTable);
         vbox.getChildren().add(buyButton);
         vbox.getChildren().add(redeemButton);
         vbox.getChildren().add(logoutButton);
 
-
         window = new StackPane();       
         window.getChildren().add(vbox);
         
-        scene = new Scene(window, 800, 600);
-                    
+        scene = new Scene(window, 800, 600);               
     }
     
     public void show(Stage p){
@@ -125,9 +121,9 @@ public class userWindow extends singletonWindow {
     }
     
     static userWindow getInstance(){
-        if(instance != null){
+        if(instance != null)
             return instance;
-        }else{
+        else{
             instance = new userWindow();
             return getInstance();
         }
@@ -136,12 +132,17 @@ public class userWindow extends singletonWindow {
     public VBox customerCostScreenBuy() {
         double totalCost = 0;
         for(book b: data) {
-            if(b.getSelected().equals(true)) {
-                totalCost = (b.getPrice());
-                b.setSelected(false);
+            if(b.getSelected().isSelected()) {
+                totalCost += b.getPrice();
+                b.getSelected().setSelected(false);
             }
         }
         
+        customer.buy(totalCost);
+        Label TC = new Label("Total Cost: " + (int)totalCost);
+
+        Label points_status = new Label("Points: "+ customer.getPoints() + ", " + "Status: " + customer.getStatus());
+
         logoutButton = new Button();
         logoutButton.setText("Log Out");
         logoutButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -152,11 +153,6 @@ public class userWindow extends singletonWindow {
             }
         });
         
-        customer.buy(totalCost);
-        Label TC = new Label("Total Cost: " + (int)totalCost);
-
-        Label points_status = new Label("Points: "+ customer.getPoints() + ", " + "Status: " + customer.getStatus());
-
         VBox vbox = new VBox(10);
         vbox.getChildren().addAll(TC, points_status, logoutButton);
         vbox.setPadding(new Insets(50, 50, 50, 50));
@@ -167,11 +163,15 @@ public class userWindow extends singletonWindow {
     public VBox customerCostScreenRedeem() {
         double totalCost = 0;
         for(book b: data) {
-            if(b.getSelected().equals(true)) {
-                totalCost = totalCost + b.getPrice();
-                b.setSelected(false);
+            if(b.getSelected().isSelected()) {
+                totalCost += b.getPrice();
+                b.getSelected().setSelected(false);
             }
         }
+        
+        Label TC = new Label("Total Cost: " + (int)customer.redeemPointsBuy(totalCost));
+
+        Label points_status = new Label("Points: " + customer.getPoints() + ", " + "Status: " + customer.getStatus());
 
         logoutButton = new Button();
         logoutButton.setText("Log Out");
@@ -183,14 +183,11 @@ public class userWindow extends singletonWindow {
             }
         });
         
-        Label TC = new Label("Total Cost: " + (int)customer.redeemPointsBuy(totalCost));
-
-        Label points_status = new Label("Points: " + customer.getPoints() + ", " + "Status: " + customer.getStatus());
-
         VBox vbox = new VBox(10);
         vbox.getChildren().addAll(TC, points_status, logoutButton);
         vbox.setPadding(new Insets(50, 50, 50, 50));
         return vbox;
     }
+    
 
 }
