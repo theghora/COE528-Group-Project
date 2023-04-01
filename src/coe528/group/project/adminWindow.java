@@ -34,25 +34,24 @@ import javafx.stage.WindowEvent;
  * @author super
  */
 public class adminWindow extends singletonWindow {
-    
+
     String title = "Admin Window";
-    
+
     Text welcome_l;
     VBox vbox;
-    
+
     Button books, customers, logoutButton;
 
-    
     private static adminWindow instance;
-    
-    private adminWindow(){
+
+    private adminWindow() {
         //set up all the ui bs here
         welcome_l = new Text("Congrat! Yo discover admin window!");
-        
+
         books = new Button();
         books.setText("Books");
         books.setOnAction(new EventHandler<ActionEvent>() {
-            
+
             @Override
             public void handle(ActionEvent event) {
                 adminBookWindow.getInstance().show(stage);
@@ -60,22 +59,22 @@ public class adminWindow extends singletonWindow {
                 //do something
             }
         });
-        
+
         customers = new Button();
         customers.setText("Customers");
         customers.setOnAction(new EventHandler<ActionEvent>() {
-            
+
             @Override
             public void handle(ActionEvent event) {
                 System.out.println("customers button clicked");
                 //do something
             }
         });
-        
+
         logoutButton = new Button();
         logoutButton.setText("Log Out");
         logoutButton.setOnAction(new EventHandler<ActionEvent>() {
-            
+
             @Override
             public void handle(ActionEvent event) {
                 System.out.println("Logged out");
@@ -83,31 +82,29 @@ public class adminWindow extends singletonWindow {
             }
         });
 
-        
-        
         vbox = new VBox();
-        
+
         //Alignment and Spacing
         vbox.setAlignment(Pos.CENTER);
         vbox.setPadding(new Insets(16));
         vbox.setSpacing(16);
-        
+
         vbox.getChildren().add(welcome_l);
         vbox.getChildren().add(books);
         vbox.getChildren().add(customers);
 
         vbox.getChildren().add(logoutButton);
-       
-        window = new StackPane();       
+
+        window = new StackPane();
         window.getChildren().add(vbox);
-        
+
         scene = new Scene(window, 800, 600);
 
-/*         //if(instance !=null){           //if window is closed from admin window
+        /*         //if(instance !=null){           //if window is closed from admin window
             stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST,
                     this::closeWindowEvent);        
-    }
-      public void closeWindowEvent(WindowEvent event) {              //deletes contents of books and customers files
+            }
+              public void closeWindowEvent(WindowEvent event) {              //deletes contents of books and customers files
         System.out.println("Window close request ...");
         try {
             FileWriter C = new FileWriter("customers.txt",false);
@@ -123,8 +120,9 @@ public class adminWindow extends singletonWindow {
         }catch(Exception e){
            e.printStackTrace();
         }
-    } */
-    
+            } */
+    }
+
     static adminWindow getInstance() {
         if (instance != null) {
             return instance;
@@ -133,9 +131,9 @@ public class adminWindow extends singletonWindow {
             return getInstance();
         }
     }
-  
-    
+
 }
+
 
 class adminBookWindow extends singletonWindow {
     
