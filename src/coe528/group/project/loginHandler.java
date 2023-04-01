@@ -27,21 +27,21 @@ public class loginHandler {
     private static boolean isCustomer(String username, String password){
         try {
             File customersFile = new File(CUSTOMERS_FILE_PATH);
-            Scanner scanner = new Scanner(customersFile);
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                String[] fields = line.split(",");
-                if(fields.length == 3 && fields[1].equals(username) && fields[2].equals(password)){
-                    scanner.close();
-                    return true;
+            try (Scanner scanner = new Scanner(customersFile)) {
+                while (scanner.hasNextLine()) {
+                    String line = scanner.nextLine();
+                    String[] fields = line.split(",");
+                    if(fields.length == 3 && fields[1].equals(username) && fields[2].equals(password)){
+                        scanner.close();
+                        return true;
+                    }
                 }
             }
-            scanner.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            System.exit(1);
+            return false;
+           
         }
-
         return false;
     }
 }
