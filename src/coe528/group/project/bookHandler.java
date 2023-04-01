@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package coe528.group.project;
 
 import java.io.BufferedReader;
@@ -12,34 +7,54 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- *
- * @author super
- */
 public class bookHandler {
     
     //test main
     public static void main(String[] args) {
-        bookHandler test = new bookHandler();
+        /*bookHandler test = new bookHandler();
         test.createBook(1600, "Don Quixote");
         test.createBook(1200, "Dream of the Red Chamber");
         test.createBook(900, "Moby Dick");
-        test.export();
+        test.export();*/
     }
     
-    class book{
-        int price;
-        String title;
+
+    public class book {
+
+        private String title;
+        private int price;
+        private Boolean selected;
+
         private book(int p, String t){
-            title = t;
-            price = p;
+            this.title = t;
+            this.price = p;
+            this.selected = false;
         }
-        String getTitle(){
+
+        public String getTitle() {
             return title;
         }
-        String getPrice(){
-            return title;
+
+        public void setTitle(String title) {
+            this.title = title;
         }
+
+        public int getPrice() {
+            return price;
+        }
+
+        public void setPrice(int price) {
+            this.price = price;
+        }
+
+        public Boolean getSelected() {
+            return selected;
+        }
+
+        public void setSelected(Boolean selected) {
+            this.selected = selected;
+        }
+        
         @Override
         public String toString(){
             return ""+price+"#$"+title;
@@ -47,10 +62,14 @@ public class bookHandler {
     }
     
     ArrayList<book> bookDB;
-    
+
     bookHandler(){
         bookDB = new ArrayList<book>();
+
+        bookDB.add(new book(10, "Book 1"));
+        bookDB.add(new book(10, "Book ew"));
     }
+
     
     public boolean reload(){
         try {
@@ -60,7 +79,7 @@ public class bookHandler {
                 s = read.readLine();
                 
                 createBook(Integer.parseInt(s.split("#$")[0]), s.split("#$")[1]);
-
+                
                 if(s != null){
                 System.out.println(s);
                 }else{
@@ -96,8 +115,8 @@ public class bookHandler {
         bookDB.add(new book(p,t));
     }
     
-    public ArrayList getBookDB(){
+    public ArrayList<book> getBookDB(){
         //yes this exposes the rep now stfu
         return bookDB;
-    }
+    }   
 }
