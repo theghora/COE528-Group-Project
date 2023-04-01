@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import javafx.scene.control.CheckBox;
 
 public class bookHandler {
     
@@ -22,12 +23,12 @@ public class bookHandler {
 
         private String title;
         private int price;
-        private Boolean selected;
+        private CheckBox selected;
 
         private book(int p, String t){
             this.title = t;
             this.price = p;
-            this.selected = false;
+            this.selected = new CheckBox();
         }
 
         public String getTitle() {
@@ -46,11 +47,11 @@ public class bookHandler {
             this.price = price;
         }
 
-        public Boolean getSelected() {
+        public CheckBox getSelected() {
             return selected;
         }
 
-        public void setSelected(Boolean selected) {
+        public void setSelected(CheckBox selected) {
             this.selected = selected;
         }
         
