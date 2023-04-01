@@ -1,0 +1,4 @@
+1000,Bilal Malik,pass123
+500,Elma Ahmed,pass456
+750,Omran Khan,pass789
+250,Indian Khan,pass101112
