@@ -32,6 +32,7 @@ public class userWindow extends singletonWindow {
     Button redeemButton;
     
     User user;
+    Customer customer = new Customer("user", "user", 0);
     
     private static userWindow instance;
     
@@ -136,8 +137,8 @@ public class userWindow extends singletonWindow {
         double totalCost = 0;
         for(book b: data) {
             if(b.getSelected().equals(true)) {
-            totalCost = totalCost + (b.getPrice());
-            b.setSelected(false);
+                totalCost = (b.getPrice());
+                b.setSelected(false);
             }
         }
         
@@ -151,16 +152,16 @@ public class userWindow extends singletonWindow {
             }
         });
         
+        customer.buy(totalCost);
         Label TC = new Label("Total Cost: " + (int)totalCost);
 
-        Label points_status = new Label("Points: ");
+        Label points_status = new Label("Points: "+ customer.getPoints() + ", " + "Status: " + customer.getStatus());
 
         VBox vbox = new VBox(10);
         vbox.getChildren().addAll(TC, points_status, logoutButton);
         vbox.setPadding(new Insets(50, 50, 50, 50));
         return vbox;
     }
-    
     
     
     public VBox customerCostScreenRedeem() {
@@ -182,7 +183,7 @@ public class userWindow extends singletonWindow {
             }
         });
         
-        Label TC = new Label("Total Cost: ");
+        Label TC = new Label("Total Cost: " + (int)customer.redeemPointsBuy(totalCost));
 
         Label points_status = new Label("Points: " );
 
