@@ -15,6 +15,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
@@ -25,6 +26,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.util.Callback;
 
 /**
  *
@@ -163,6 +165,7 @@ class adminBookWindow extends singletonWindow {
         TableColumn titleCol = new TableColumn("Title");
         TableColumn priceCol = new TableColumn("Price");
         
+        
         titleCol.setCellValueFactory( new PropertyValueFactory<book, String>("title") );
         
         titleCol.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -178,6 +181,18 @@ class adminBookWindow extends singletonWindow {
         );
         
         priceCol.setCellValueFactory( new PropertyValueFactory<book, Integer>("price") );
+        /*
+        priceCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        priceCol.setOnEditCommit(
+            new EventHandler<CellEditEvent<book, Integer>>() {
+                @Override
+                public void handle(CellEditEvent<book, Integer> t) {
+                    ((book) t.getTableView().getItems().get(
+                        t.getTablePosition().getRow())
+                        ).setPrice(t.getNewValue());
+                }
+            }
+        );*/
         
         table.setItems(data);
         table.getColumns().addAll(titleCol, priceCol);
@@ -227,6 +242,12 @@ class adminBookWindow extends singletonWindow {
             
             @Override
             public void handle(ActionEvent event) {
+                handler.createBook(0, "New Book");
+                ObservableList<bookHandler.book> data = null;
+                data = FXCollections.observableArrayList(handler.getBookDB());
+                table.getItems().clear();
+                table.setItems(data);
+                table.refresh();
                 System.out.println("add button clicked");
                 //do something
             }
