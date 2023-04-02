@@ -197,11 +197,10 @@ public class userWindow extends singletonWindow {
                 b.getSelected().setSelected(false);
             }
         }
-        
         Label TC = new Label("Total Cost: "+totalCost);
-        Label x = new Label (""+customer.redeemPointsBuy(totalCost));
-
-        Label points_status = new Label("Points: " + customer.getPoints() + ", " + "Status: " + customer.getStatus());
+        Label Before_points_status = new Label("Before Points: " + customer.getPoints() + ", " + " Before Status: " + customer.getStatus());
+        Label transaction = new Label("Transaction Cost: "+customer.redeemPointsBuy(totalCost));
+        Label Current_points_status = new Label("After Points: " + customer.getPoints() + ", " + " After Status: " + customer.getStatus());
 
         logoutButton = new Button();
         logoutButton.setText("Log Out");
@@ -228,7 +227,7 @@ public class userWindow extends singletonWindow {
         });
         
         VBox vbox = new VBox(10);
-        vbox.getChildren().addAll(TC,x, points_status, logoutButton,back);
+        vbox.getChildren().addAll(TC,transaction,Before_points_status,Current_points_status, logoutButton,back);
         vbox.setPadding(new Insets(50, 50, 50, 50));
         return vbox;
         

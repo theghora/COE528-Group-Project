@@ -72,14 +72,11 @@ import javafx.scene.control.CheckBox;
         public double redeemPointsBuy(double totalcost){
             double redeemed = points/100;
             points =0;
-            
             totalcost -=redeemed;
             if(totalcost < 0) {
                 points = (int)(-totalcost)*100;
                 totalcost = 0.0;
             }
-            points = points + (int)(totalcost * 10);
-
             if(points < 1000){
                 setSilver();}
             else{
