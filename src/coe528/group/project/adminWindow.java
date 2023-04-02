@@ -147,7 +147,7 @@ class adminBookWindow extends singletonWindow {
     ArrayList<HBox> listItems;
     Button delete,back,add,save;
     TableView table;
-    bookHandler handler = new bookHandler();
+    bookHandler handler = bookHandler.getInstance();
     ObservableList<bookHandler.book> data;
 
     
