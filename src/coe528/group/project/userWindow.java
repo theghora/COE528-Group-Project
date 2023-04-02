@@ -1,11 +1,11 @@
 package coe528.group.project;
 
 import coe528.group.project.bookHandler.book;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -13,15 +13,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
-import javafx.scene.control.cell.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 public class userWindow extends singletonWindow {
     
@@ -54,15 +55,22 @@ public class userWindow extends singletonWindow {
         nameCol.setMinWidth(200);
         nameCol.setCellValueFactory(new PropertyValueFactory<book,String>("title"));
 
-        TableColumn priceCol = new TableColumn("Book Price");
+        TableColumn priceCol = new TableColumn("Book Price ($)");
         priceCol.setMinWidth(100);
         priceCol.setCellValueFactory(new PropertyValueFactory<book,Integer>("price"));
 
         TableColumn selectCol = new TableColumn("Select");
         selectCol.setMinWidth(25);
+        selectCol.setCellValueFactory(new PropertyValueFactory<book,CheckBox>("selected"));
         selectCol.setCellFactory(CheckBoxTableCell.forTableColumn(selectCol));
-        selectCol.setCellValueFactory(new PropertyValueFactory<book,CheckBox>("checkBox"));
-      
+
+        selectCol.setCellValueFactory(
+            new Callback<CellDataFeatures<book,Boolean>,ObservableValue<Boolean>>() {
+                @Override
+                public ObservableValue<Boolean> call(CellDataFeatures<book, Boolean> b) {
+                    return b.getValue().getSelected().selectedProperty();
+                }
+            });
          
         bookTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
@@ -84,7 +92,7 @@ public class userWindow extends singletonWindow {
         buyButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-            stage.setScene(new Scene(customerCostScreenBuy(e), 400, 200));
+                stage.setScene(new Scene(customerCostScreenBuy(), 400, 200));
             }
         });
         
@@ -93,7 +101,7 @@ public class userWindow extends singletonWindow {
         redeemButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-            stage.setScene(new Scene(customerCostScreenRedeem(e), 400, 200));
+                stage.setScene(new Scene(customerCostScreenRedeem(), 400, 200));
             }
         });
         
@@ -131,15 +139,15 @@ public class userWindow extends singletonWindow {
         }
     }
     
-    public VBox customerCostScreenBuy(ActionEvent Event) {
-
+    public VBox customerCostScreenBuy() {
         double totalCost = 0;
         for(book b: data) {
             if(b.getSelected().isSelected()) {
-               System.out.println("hsfjhaifdiajn");
-               b.checkboxFire();
+                totalCost += b.getPrice();
+                b.getSelected().setSelected(false);
             }
-        System.out.println("\t"+String.valueOf(totalCost));
+        }
+        
         customer.buy(totalCost);
         Label TC = new Label("Total Cost: " + (int)totalCost);
 
@@ -160,18 +168,16 @@ public class userWindow extends singletonWindow {
         vbox.setPadding(new Insets(50, 50, 50, 50));
         return vbox;
     }
-        return vbox;
-    }
     
-    public VBox customerCostScreenRedeem(ActionEvent Event) {
+    public VBox customerCostScreenRedeem() {
         double totalCost = 0;
         for(book b: data) {
             if(b.getSelected().isSelected()) {
-                System.out.println("Selected");
-                b.checkboxFire();
+                totalCost += b.getPrice();
+                b.getSelected().setSelected(false);
             }
         }
-         System.out.println("\t"+String.valueOf(totalCost));
+        
         Label TC = new Label("Total Cost: " + (int)customer.redeemPointsBuy(totalCost));
 
         Label points_status = new Label("Points: " + customer.getPoints() + ", " + "Status: " + customer.getStatus());
@@ -191,6 +197,4 @@ public class userWindow extends singletonWindow {
         vbox.setPadding(new Insets(50, 50, 50, 50));
         return vbox;
     }
-    
-
 }
