@@ -89,6 +89,17 @@ public class loginHandler {
     public void createBook(String u, String p, int po){
         users.add(new Customer(u,p,po));
     }
+    
+    public void removeBook(String u, String p, int po){
+        int index = -1;
+        for(Customer x: users){
+                if (x.getUsername().equals(u)&&x.getPassword().equals(p)&&x.getPoints() == po){
+                    index = users.indexOf(x);
+                }
+            }
+        users.remove(users.get(index));
+    }
+    
     public ArrayList<Customer> getUserDB(){
         //yes this exposes the rep now stfu
         return users;

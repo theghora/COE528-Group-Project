@@ -30,6 +30,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
+import javafx.util.converter.IntegerStringConverter;
 
 /**
  *
@@ -197,17 +198,19 @@ class adminBookWindow extends singletonWindow {
         
         priceCol.setCellValueFactory( new PropertyValueFactory<book, Integer>("price") );
         
-        /*priceCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        
+        
+        priceCol.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
         priceCol.setOnEditCommit(
-            new EventHandler<CellEditEvent<book, String>>() {
+            new EventHandler<CellEditEvent<book, Integer>>() {
                 @Override
-                public void handle(CellEditEvent<book, String> t) {
+                public void handle(CellEditEvent<book, Integer> t) {
                     ((book) t.getTableView().getItems().get(
                         t.getTablePosition().getRow())
-                        ).setPrice(Integer.parseInt(t.getNewValue()));
+                        ).setPrice(t.getNewValue());
                 }
             }
-        );*/
+        );
         
         table.setItems(data);
         table.getColumns().addAll(titleCol, priceCol, selectCol);
@@ -242,18 +245,27 @@ class adminBookWindow extends singletonWindow {
             
             @Override
             public void handle(ActionEvent event) {
+                //handler.export();
+                //handler.reload();
+                String plpedkop = "";
+                int awedr = -1;
                 for(book b: data) {
                     if(b.getSelected().isSelected()) {
-                        handler.removeBook(b.getPrice(), b.getTitle());
-                        ObservableList<bookHandler.book> data = null;
-                        data = FXCollections.observableArrayList(handler.getBookDB());
-                        table.getItems().clear();
-                        table.setItems(data);
-                        table.refresh();
+                        plpedkop = b.getTitle();
+                        awedr = b.getPrice();
                     }
                 }
+                
+                handler.removeBook(awedr, plpedkop);
+                ObservableList<bookHandler.book> data = null;
+                data = FXCollections.observableArrayList(handler.getBookDB());
+                table.getItems().clear();
+                table.setItems(data);
+                table.refresh();
+                        
                 System.out.println("delete button clicked");
                 //do something
+
             }
         });
         delete.setMinWidth(60);
