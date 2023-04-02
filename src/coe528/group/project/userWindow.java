@@ -34,6 +34,7 @@ public class userWindow extends singletonWindow {
     Button logoutButton;
     Button buyButton;
     Button redeemButton;
+    Button back;
     
     private static userWindow instance;
     
@@ -163,8 +164,23 @@ public class userWindow extends singletonWindow {
             }
         });
         
+        back = new Button();
+        
+        back.setText("Back");
+        back.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                userWindow.getInstance().show(stage);
+                System.out.println("back button clicked");
+            }
+        });
+        
+        
+
+        
         VBox vbox = new VBox(10);
-        vbox.getChildren().addAll(TC, points_status, logoutButton);
+        vbox.getChildren().addAll(TC, points_status, logoutButton,back);
         vbox.setPadding(new Insets(50, 50, 50, 50));
         return vbox;
     }
@@ -191,9 +207,20 @@ public class userWindow extends singletonWindow {
                 loginWindow.getInstance().show(stage);
             }
         });
+        back = new Button();
+        
+        back.setText("Back");
+        back.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                userWindow.getInstance().show(stage);
+                System.out.println("back button clicked");
+            }
+        });
         
         VBox vbox = new VBox(10);
-        vbox.getChildren().addAll(TC, points_status, logoutButton);
+        vbox.getChildren().addAll(TC, points_status, logoutButton,back);
         vbox.setPadding(new Insets(50, 50, 50, 50));
         return vbox;
     }

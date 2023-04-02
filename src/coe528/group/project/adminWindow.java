@@ -411,4 +411,3 @@ class adminUserWindow extends singletonWindow {
     }
     
 }
-
