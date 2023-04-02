@@ -23,13 +23,13 @@ public class bookHandler {
 
         private String title;
         private int price;
-        private CheckBox checkBox;
+        private CheckBox selected;
 
         private book(int p, String t){
             this.title = t;
             this.price = p;
-            this.checkBox = new CheckBox();
-            checkBox.fire();
+            this.selected = new CheckBox();
+
         }
 
         public String getTitle() {
@@ -49,16 +49,11 @@ public class bookHandler {
         }
 
         public CheckBox getSelected() {
-            
-            return checkBox;
-            
+            return selected;
         }
 
         public void setSelected(CheckBox selected) {
-            this.checkBox = selected;
-        }
-        public void checkboxFire(){
-            checkBox.fire();
+            this.selected = selected;
         }
         
         @Override
