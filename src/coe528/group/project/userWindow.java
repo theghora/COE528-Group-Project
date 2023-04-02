@@ -106,7 +106,12 @@ public class userWindow extends singletonWindow {
             }
         });
         
-        vbox = new VBox();
+              
+    }
+    
+    public void show(Stage p){
+        p.setTitle("User Window");
+               vbox = new VBox();
         
         // Alignment and Spacing
         vbox.setAlignment(Pos.CENTER);
@@ -122,11 +127,7 @@ public class userWindow extends singletonWindow {
         window = new StackPane();       
         window.getChildren().add(vbox);
         
-        scene = new Scene(window, 800, 600);               
-    }
-    
-    public void show(Stage p){
-        p.setTitle("User Window");
+        scene = new Scene(window, 800, 600);  
         p.setScene(scene);
         stage = p;
     }
@@ -171,7 +172,10 @@ public class userWindow extends singletonWindow {
             
             @Override
             public void handle(ActionEvent event) {
+                welcome = new Text("Welcome " + customer.getUsername() + ". You have " + customer.getPoints() + " points. Your status is " + customer.getStatus() + ".");
+
                 userWindow.getInstance().show(stage);
+
                 System.out.println("back button clicked");
             }
         });
@@ -194,7 +198,8 @@ public class userWindow extends singletonWindow {
             }
         }
         
-        Label TC = new Label("Total Cost: " + (int)customer.redeemPointsBuy(totalCost));
+        Label TC = new Label("Total Cost: "+totalCost);
+        Label x = new Label (""+customer.redeemPointsBuy(totalCost));
 
         Label points_status = new Label("Points: " + customer.getPoints() + ", " + "Status: " + customer.getStatus());
 
@@ -214,14 +219,18 @@ public class userWindow extends singletonWindow {
             
             @Override
             public void handle(ActionEvent event) {
+                welcome = new Text("Welcome " + customer.getUsername() + ". You have " + customer.getPoints() + " points. Your status is " + customer.getStatus() + ".");
+
                 userWindow.getInstance().show(stage);
+
                 System.out.println("back button clicked");
             }
         });
         
         VBox vbox = new VBox(10);
-        vbox.getChildren().addAll(TC, points_status, logoutButton,back);
+        vbox.getChildren().addAll(TC,x, points_status, logoutButton,back);
         vbox.setPadding(new Insets(50, 50, 50, 50));
         return vbox;
+        
     }
 }

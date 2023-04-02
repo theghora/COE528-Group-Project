@@ -30,15 +30,30 @@ import javafx.scene.control.CheckBox;
         }
         
         public int getPoints(){
+            if(points <1000){
+                this.Status=new Silver();
+            }else{
+                this.Status=new Gold();
+            }
             return points;
         }
         
         public State getStatus(){
+            if(points <1000){
+                this.Status=new Silver();
+            }else{
+                this.Status=new Gold();
+            }
             return Status;
         }
         
-        public void setPoints(int p){
+        public void setPoints(int p){       
             this.points = p;
+            if(points <1000){
+                this.Status=new Silver();
+            }else{
+                this.Status=new Gold();
+            }
         }
         
         public void setStatus(State s){
