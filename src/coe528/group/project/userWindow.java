@@ -40,7 +40,7 @@ public class userWindow extends singletonWindow {
     
     private TableView<book> bookTable = new TableView<book>();
     
-    bookHandler handler = new bookHandler();
+    bookHandler handler = bookHandler.getInstance();
     ObservableList<book> data = FXCollections.observableArrayList(handler.getBookDB());
 
     Customer customer = loginHandler.getInstance().getCurrentCustomer();

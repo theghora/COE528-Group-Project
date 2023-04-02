@@ -64,9 +64,17 @@ public class bookHandler {
     
     ArrayList<book> bookDB;
 
-    bookHandler(){
+    private bookHandler(){
         bookDB = new ArrayList<book>();
         reload();
+    }
+    
+    static bookHandler instance;
+    
+    public static bookHandler getInstance() {
+        if (instance == null)
+            instance = new bookHandler();
+        return instance;
     }
 
     public boolean reload(){

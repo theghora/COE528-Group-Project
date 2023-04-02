@@ -38,6 +38,13 @@ public class COE528GroupProject extends Application {
         loginWindow.getInstance().show(primaryStage);
         primaryStage.show();
     }
+    
+    @Override
+    public void stop(){
+        bookHandler.getInstance().export();
+        loginHandler.getInstance().export();
+        System.out.println("Goodbye!");
+    }
 
     /**
      * @param args the command line arguments
