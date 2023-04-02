@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -14,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.control.cell.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -59,8 +61,8 @@ public class userWindow extends singletonWindow {
         TableColumn selectCol = new TableColumn("Select");
         selectCol.setMinWidth(25);
         selectCol.setCellFactory(CheckBoxTableCell.forTableColumn(selectCol));
-        selectCol.setCellValueFactory(new PropertyValueFactory<book,CheckBox>("selected"));
-
+        selectCol.setCellValueFactory(new PropertyValueFactory<book,CheckBox>("checkBox"));
+      
          
         bookTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
@@ -82,7 +84,7 @@ public class userWindow extends singletonWindow {
         buyButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-            stage.setScene(new Scene(customerCostScreenBuy(), 400, 200));
+            stage.setScene(new Scene(customerCostScreenBuy(e), 400, 200));
             }
         });
         
@@ -91,7 +93,7 @@ public class userWindow extends singletonWindow {
         redeemButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-            stage.setScene(new Scene(customerCostScreenRedeem(), 400, 200));
+            stage.setScene(new Scene(customerCostScreenRedeem(e), 400, 200));
             }
         });
         
@@ -129,15 +131,15 @@ public class userWindow extends singletonWindow {
         }
     }
     
-    public VBox customerCostScreenBuy() {
+    public VBox customerCostScreenBuy(ActionEvent Event) {
+
         double totalCost = 0;
         for(book b: data) {
             if(b.getSelected().isSelected()) {
-                totalCost += b.getPrice();
-                b.getSelected().setSelected(false);
+               System.out.println("hsfjhaifdiajn");
+               b.checkboxFire();
             }
-        }
-        
+        System.out.println("\t"+String.valueOf(totalCost));
         customer.buy(totalCost);
         Label TC = new Label("Total Cost: " + (int)totalCost);
 
@@ -158,17 +160,18 @@ public class userWindow extends singletonWindow {
         vbox.setPadding(new Insets(50, 50, 50, 50));
         return vbox;
     }
+        return vbox;
+    }
     
-    
-    public VBox customerCostScreenRedeem() {
+    public VBox customerCostScreenRedeem(ActionEvent Event) {
         double totalCost = 0;
         for(book b: data) {
             if(b.getSelected().isSelected()) {
-                totalCost += b.getPrice();
-                b.getSelected().setSelected(false);
+                System.out.println("Selected");
+                b.checkboxFire();
             }
         }
-        
+         System.out.println("\t"+String.valueOf(totalCost));
         Label TC = new Label("Total Cost: " + (int)customer.redeemPointsBuy(totalCost));
 
         Label points_status = new Label("Points: " + customer.getPoints() + ", " + "Status: " + customer.getStatus());
