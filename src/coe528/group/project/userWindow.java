@@ -93,7 +93,7 @@ public class userWindow extends singletonWindow {
         buyButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                stage.setScene(new Scene(customerCostScreenBuy(), 400, 200));
+                stage.setScene(new Scene(customerCostScreenBuy(), 600, 400));
             }
         });
         
@@ -102,7 +102,7 @@ public class userWindow extends singletonWindow {
         redeemButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                stage.setScene(new Scene(customerCostScreenRedeem(), 400, 200));
+                stage.setScene(new Scene(customerCostScreenRedeem(), 600, 400));
             }
         });
         
