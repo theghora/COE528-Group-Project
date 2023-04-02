@@ -1,8 +1,12 @@
 package coe528.group.project;
 
+import java.io.BufferedReader;
 import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class loginHandler {
@@ -11,8 +15,11 @@ public class loginHandler {
     
     private static loginHandler instance;
     private static Customer customer;
+    private ArrayList<User> users;
 
-    private loginHandler() {}
+    private loginHandler() {
+        this.reload();
+    }
     
     public static boolean enter(String username, String password, Stage p){
 
@@ -60,6 +67,27 @@ public class loginHandler {
         if (instance == null)
             instance = new loginHandler();
         return instance;
+    }
+    
+    boolean reload(){
+        users = new ArrayList<User>();
+        try {
+            BufferedReader read = new BufferedReader(new FileReader(CUSTOMERS_FILE_PATH));
+            String s;
+            while((s = read.readLine()) != null){
+                users.add(new Customer(s.split(",")[1],s.split(",")[2],Integer.parseInt(s.split(",")[0])));
+            }
+            read.close();
+            return true;
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public ArrayList<User> getUserDB(){
+        //yes this exposes the rep now stfu
+        return users;
     }
 }
  

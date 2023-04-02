@@ -62,6 +62,7 @@ public class adminWindow extends singletonWindow {
 
             @Override
             public void handle(ActionEvent event) {
+                adminUserWindow.getInstance().show(stage);
                 System.out.println("customers button clicked");
                 //do something
             }
@@ -94,7 +95,7 @@ public class adminWindow extends singletonWindow {
         window = new StackPane();
         window.getChildren().add(vbox);
 
-        scene = new Scene(window, 800, 600);
+        scene = new Scene(window, 300, 250);
 
         /*         //if(instance !=null){           //if window is closed from admin window
             stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST,
@@ -136,7 +137,7 @@ class adminBookWindow extends singletonWindow {
     VBox mainVertical, subVertical;
     HBox bottomButtons;
     ArrayList<HBox> listItems;
-    Button delete,back;
+    Button delete,back,add;
     TableView table;
     bookHandler handler = new bookHandler();
     ObservableList<bookHandler.book> data;
@@ -163,6 +164,7 @@ class adminBookWindow extends singletonWindow {
         titleCol.setCellValueFactory( new PropertyValueFactory<book, String>("title") );
         priceCol.setCellValueFactory( new PropertyValueFactory<book, Integer>("price") );
         
+        table.setItems(data);
         table.getColumns().addAll(titleCol, priceCol);
         
         subVertical.getChildren().add(table);
@@ -209,7 +211,7 @@ class adminBookWindow extends singletonWindow {
         window = new StackPane();       
         window.getChildren().add(mainVertical);
         
-        scene = new Scene(window, 800, 600);
+        scene = new Scene(window, 300, 250);
     }
     
     static adminBookWindow getInstance(){
@@ -217,6 +219,99 @@ class adminBookWindow extends singletonWindow {
             return instance;
         }else{
             instance = new adminBookWindow();
+            return getInstance();
+        }
+    }
+    
+}
+
+class adminUserWindow extends singletonWindow {
+    
+    VBox mainVertical, subVertical;
+    HBox bottomButtons;
+    ArrayList<HBox> listItems;
+    Button delete,back,add;
+    TableView table;
+    loginHandler handler = loginHandler.getInstance();
+    ObservableList<User> data;
+
+    
+    String title = "Book Window";
+    
+    private static adminUserWindow instance;
+    
+    private adminUserWindow(){
+        
+        ObservableList<User> data = FXCollections.observableArrayList(handler.getUserDB());
+
+        mainVertical = new VBox();
+        subVertical = new VBox();
+        bottomButtons = new HBox();
+        
+        
+        table = new TableView();
+        table.setEditable(true);
+        TableColumn nameCol = new TableColumn("Username");
+        TableColumn passwordCol = new TableColumn("Password");
+        
+        nameCol.setCellValueFactory( new PropertyValueFactory<User, String>("username") );
+        passwordCol.setCellValueFactory( new PropertyValueFactory<User, String>("password") );
+        
+        table.setItems(data);
+        table.getColumns().addAll(nameCol, passwordCol);
+        
+        subVertical.getChildren().add(table);
+        
+        back = new Button();
+        
+        back.setText("Back");
+        back.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                adminWindow.getInstance().show(stage);
+                System.out.println("back button clicked");
+                //do something
+            }
+        });
+        back.setMinWidth(60);
+        
+        bottomButtons.getChildren().add(back);
+        
+        Region spacer = new Region();
+        spacer.setPrefWidth(800);
+        bottomButtons.getChildren().add(spacer);
+
+        
+        delete = new Button();
+        
+        delete.setText("Delete");
+        delete.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("delete button clicked");
+                //do something
+            }
+        });
+        delete.setMinWidth(60);
+        
+        bottomButtons.getChildren().add(delete);
+        
+        mainVertical.getChildren().add(subVertical);
+        mainVertical.getChildren().add(bottomButtons);
+        
+        window = new StackPane();       
+        window.getChildren().add(mainVertical);
+        
+        scene = new Scene(window, 300, 250);
+    }
+    
+    static adminUserWindow getInstance(){
+        if(instance != null){
+            return instance;
+        }else{
+            instance = new adminUserWindow();
             return getInstance();
         }
     }
