@@ -5,13 +5,19 @@
  */
 package coe528.group.project;
 
+import coe528.group.project.bookHandler.book;
 import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
@@ -30,14 +36,17 @@ public class adminWindow extends singletonWindow {
     Text welcome_l;
     VBox vbox;
     
+    
     Button books, customers, logoutButton;
 
     
     private static adminWindow instance;
     
     private adminWindow(){
+        
+        
         //set up all the ui bs here
-        welcome_l = new Text("Congrat! Yo discover admin window!");
+        welcome_l = new Text("Please select what you wish to edit.");
         
         books = new Button();
         books.setText("Books");
@@ -89,7 +98,7 @@ public class adminWindow extends singletonWindow {
         window = new StackPane();       
         window.getChildren().add(vbox);
         
-        scene = new Scene(window, 800, 600);
+        scene = new Scene(window, 300, 250);
            
     }
     
@@ -111,6 +120,10 @@ class adminBookWindow extends singletonWindow {
     HBox bottomButtons;
     ArrayList<HBox> listItems;
     Button delete,back;
+    TableView table;
+    bookHandler handler = new bookHandler();
+    ObservableList<bookHandler.book> data;
+
     
     String title = "Book Window";
     
@@ -118,11 +131,24 @@ class adminBookWindow extends singletonWindow {
     
     private adminBookWindow(){
         
+        ObservableList<bookHandler.book> data = FXCollections.observableArrayList(handler.getBookDB());
+
         mainVertical = new VBox();
         subVertical = new VBox();
         bottomButtons = new HBox();
         
         
+        table = new TableView();
+        table.setEditable(true);
+        TableColumn titleCol = new TableColumn("Title");
+        TableColumn priceCol = new TableColumn("Price");
+        
+        titleCol.setCellValueFactory( new PropertyValueFactory<book, String>("title") );
+        priceCol.setCellValueFactory( new PropertyValueFactory<book, Integer>("price") );
+        
+        table.getColumns().addAll(titleCol, priceCol);
+        
+        subVertical.getChildren().add(table);
         
         back = new Button();
         
