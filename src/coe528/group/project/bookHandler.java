@@ -29,6 +29,7 @@ public class bookHandler {
             this.title = t;
             this.price = p;
             this.selected = new CheckBox();
+
         }
 
         public String getTitle() {

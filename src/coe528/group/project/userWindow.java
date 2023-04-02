@@ -1,6 +1,7 @@
 package coe528.group.project;
 
 import coe528.group.project.bookHandler.book;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -20,6 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 public class userWindow extends singletonWindow {
     
@@ -52,15 +55,22 @@ public class userWindow extends singletonWindow {
         nameCol.setMinWidth(200);
         nameCol.setCellValueFactory(new PropertyValueFactory<book,String>("title"));
 
-        TableColumn priceCol = new TableColumn("Book Price");
+        TableColumn priceCol = new TableColumn("Book Price ($)");
         priceCol.setMinWidth(100);
         priceCol.setCellValueFactory(new PropertyValueFactory<book,Integer>("price"));
 
         TableColumn selectCol = new TableColumn("Select");
         selectCol.setMinWidth(25);
-        selectCol.setCellFactory(CheckBoxTableCell.forTableColumn(selectCol));
         selectCol.setCellValueFactory(new PropertyValueFactory<book,CheckBox>("selected"));
+        selectCol.setCellFactory(CheckBoxTableCell.forTableColumn(selectCol));
 
+        selectCol.setCellValueFactory(
+            new Callback<CellDataFeatures<book,Boolean>,ObservableValue<Boolean>>() {
+                @Override
+                public ObservableValue<Boolean> call(CellDataFeatures<book, Boolean> b) {
+                    return b.getValue().getSelected().selectedProperty();
+                }
+            });
          
         bookTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
@@ -82,7 +92,7 @@ public class userWindow extends singletonWindow {
         buyButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-            stage.setScene(new Scene(customerCostScreenBuy(), 400, 200));
+                stage.setScene(new Scene(customerCostScreenBuy(), 400, 200));
             }
         });
         
@@ -91,7 +101,7 @@ public class userWindow extends singletonWindow {
         redeemButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-            stage.setScene(new Scene(customerCostScreenRedeem(), 400, 200));
+                stage.setScene(new Scene(customerCostScreenRedeem(), 400, 200));
             }
         });
         
@@ -159,7 +169,6 @@ public class userWindow extends singletonWindow {
         return vbox;
     }
     
-    
     public VBox customerCostScreenRedeem() {
         double totalCost = 0;
         for(book b: data) {
@@ -188,6 +197,4 @@ public class userWindow extends singletonWindow {
         vbox.setPadding(new Insets(50, 50, 50, 50));
         return vbox;
     }
-    
-
 }
