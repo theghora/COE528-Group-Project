@@ -1,10 +1,12 @@
 package coe528.group.project;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -100,9 +102,31 @@ public class loginHandler {
         users.remove(users.get(index));
     }
     
+    public void removeBook(Customer c){
+        if(users.contains(c)){
+            users.remove(c);
+        }
+    }
+    
     public ArrayList<Customer> getUserDB(){
         //yes this exposes the rep now stfu
         return users;
+    }
+
+    boolean export() {
+        try {
+            BufferedWriter write = new BufferedWriter(new FileWriter("customers.txt", false));
+            for(Customer x: users){
+                write.append(x.toString(), 0, x.toString().length());
+                System.out.println(x.toString());
+            }
+            write.close();
+            return true;
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+            return false;
+        }
     }
 }
  
