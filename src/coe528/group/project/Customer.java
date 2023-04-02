@@ -5,6 +5,8 @@
  */
 package coe528.group.project;
 
+import javafx.scene.control.CheckBox;
+
 /**
  *
  * @author super
@@ -15,6 +17,7 @@ package coe528.group.project;
         
         protected State Status;
         
+        private CheckBox selected;
         
         public Customer(String u, String p, int points) {
             super(u, p);

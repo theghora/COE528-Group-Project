@@ -105,6 +105,16 @@ public class bookHandler {
         bookDB.add(new book(p,t));
     }
     
+    public void removeBook(int p, String t){
+        int index = -1;
+        for(book x: bookDB){
+                if (x.getPrice() == p && x.getTitle().equals(t)){
+                    index = bookDB.indexOf(x);
+                }
+            }
+        bookDB.remove(bookDB.get(index));
+    }
+    
     public ArrayList<book> getBookDB(){
         //yes this exposes the rep now stfu
         return bookDB;

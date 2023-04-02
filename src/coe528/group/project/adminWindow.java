@@ -7,6 +7,7 @@ package coe528.group.project;
 
 import coe528.group.project.bookHandler.book;
 import java.util.ArrayList;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,10 +16,12 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.HBox;
@@ -164,7 +167,19 @@ class adminBookWindow extends singletonWindow {
         table.setEditable(true);
         TableColumn titleCol = new TableColumn("Title");
         TableColumn priceCol = new TableColumn("Price");
+        TableColumn selectCol = new TableColumn("Select");
+        selectCol.setMinWidth(25);
         
+        selectCol.setCellValueFactory(new PropertyValueFactory<book,CheckBox>("selected"));
+        selectCol.setCellFactory(CheckBoxTableCell.forTableColumn(selectCol));
+
+        selectCol.setCellValueFactory(
+            new Callback<TableColumn.CellDataFeatures<book,Boolean>,ObservableValue<Boolean>>() {
+                @Override
+                public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<book, Boolean> b) {
+                    return b.getValue().getSelected().selectedProperty();
+                }
+            });
         
         titleCol.setCellValueFactory( new PropertyValueFactory<book, String>("title") );
         
@@ -181,21 +196,21 @@ class adminBookWindow extends singletonWindow {
         );
         
         priceCol.setCellValueFactory( new PropertyValueFactory<book, Integer>("price") );
-        /*
-        priceCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        
+        /*priceCol.setCellFactory(TextFieldTableCell.forTableColumn());
         priceCol.setOnEditCommit(
-            new EventHandler<CellEditEvent<book, Integer>>() {
+            new EventHandler<CellEditEvent<book, String>>() {
                 @Override
-                public void handle(CellEditEvent<book, Integer> t) {
+                public void handle(CellEditEvent<book, String> t) {
                     ((book) t.getTableView().getItems().get(
                         t.getTablePosition().getRow())
-                        ).setPrice(t.getNewValue());
+                        ).setPrice(Integer.parseInt(t.getNewValue()));
                 }
             }
         );*/
         
         table.setItems(data);
-        table.getColumns().addAll(titleCol, priceCol);
+        table.getColumns().addAll(titleCol, priceCol, selectCol);
         
         subVertical.getChildren().add(table);
         
@@ -227,6 +242,16 @@ class adminBookWindow extends singletonWindow {
             
             @Override
             public void handle(ActionEvent event) {
+                for(book b: data) {
+                    if(b.getSelected().isSelected()) {
+                        handler.removeBook(b.getPrice(), b.getTitle());
+                        ObservableList<bookHandler.book> data = null;
+                        data = FXCollections.observableArrayList(handler.getBookDB());
+                        table.getItems().clear();
+                        table.setItems(data);
+                        table.refresh();
+                    }
+                }
                 System.out.println("delete button clicked");
                 //do something
             }
