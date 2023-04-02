@@ -1,5 +1,5 @@
-1000#$Divergent
-240#$Hunger Games I
-127#$Bin Laden
-846#$Bale Bale
-100#$Curry Muncher
+30#$Divergent
+25#$Hunger Games I
+45#$Bin Laden
+15#$Bale Bale
+10#$Curry Muncher
