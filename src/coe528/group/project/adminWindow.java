@@ -247,16 +247,16 @@ class adminBookWindow extends singletonWindow {
             public void handle(ActionEvent event) {
                 //handler.export();
                 //handler.reload();
-                String plpedkop = "";
-                int awedr = -1;
+                ArrayList<book> toDelete = new ArrayList<book>();
                 for(book b: data) {
                     if(b.getSelected().isSelected()) {
-                        plpedkop = b.getTitle();
-                        awedr = b.getPrice();
+                        toDelete.add(b);
                     }
                 }
                 
-                handler.removeBook(awedr, plpedkop);
+                for(book b: toDelete){
+                    handler.removeBook(b.getPrice(), b.getTitle());
+                }
                 ObservableList<bookHandler.book> data = null;
                 data = FXCollections.observableArrayList(handler.getBookDB());
                 table.getItems().clear();
@@ -334,10 +334,10 @@ class adminUserWindow extends singletonWindow {
     VBox mainVertical, subVertical;
     HBox bottomButtons;
     ArrayList<HBox> listItems;
-    Button delete,back,add;
+    Button delete,back,add,save;
     TableView table;
     loginHandler handler = loginHandler.getInstance();
-    ObservableList<User> data;
+    ObservableList<Customer> data;
 
     
     String title = "Book Window";
@@ -358,13 +358,64 @@ class adminUserWindow extends singletonWindow {
         TableColumn nameCol = new TableColumn("Username");
         TableColumn passwordCol = new TableColumn("Password");
         TableColumn pointsCol = new TableColumn("Points");
+        TableColumn selectCol = new TableColumn("Select");
+        selectCol.setMinWidth(25);
+        
+        selectCol.setCellValueFactory(new PropertyValueFactory<Customer,CheckBox>("selected"));
+        selectCol.setCellFactory(CheckBoxTableCell.forTableColumn(selectCol));
+
+        selectCol.setCellValueFactory(
+            new Callback<TableColumn.CellDataFeatures<Customer,Boolean>,ObservableValue<Boolean>>() {
+                @Override
+                public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<Customer, Boolean> b) {
+                    return b.getValue().getSelected().selectedProperty();
+                }
+            });
         
         nameCol.setCellValueFactory( new PropertyValueFactory<Customer, String>("username") );
+        
+        nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        nameCol.setOnEditCommit(
+            new EventHandler<CellEditEvent<Customer, String>>() {
+                @Override
+                public void handle(CellEditEvent<Customer, String> t) {
+                    ((Customer) t.getTableView().getItems().get(
+                        t.getTablePosition().getRow())
+                        ).setUsername(t.getNewValue());
+                }
+            }
+        );
+        
         passwordCol.setCellValueFactory( new PropertyValueFactory<Customer, String>("password") );
+        
+        passwordCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        passwordCol.setOnEditCommit(
+            new EventHandler<CellEditEvent<Customer, String>>() {
+                @Override
+                public void handle(CellEditEvent<Customer, String> t) {
+                    ((Customer) t.getTableView().getItems().get(
+                        t.getTablePosition().getRow())
+                        ).setPassword(t.getNewValue());
+                }
+            }
+        );
+        
         pointsCol.setCellValueFactory( new PropertyValueFactory<Customer, Integer>("points") );
         
+        pointsCol.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        pointsCol.setOnEditCommit(
+            new EventHandler<CellEditEvent<Customer, Integer>>() {
+                @Override
+                public void handle(CellEditEvent<Customer, Integer> t) {
+                    ((Customer) t.getTableView().getItems().get(
+                        t.getTablePosition().getRow())
+                        ).setPoints(t.getNewValue());
+                }
+            }
+        );
+        
         table.setItems(data);
-        table.getColumns().addAll(nameCol, passwordCol, pointsCol);
+        table.getColumns().addAll(nameCol, passwordCol, pointsCol, selectCol);
         
         subVertical.getChildren().add(table);
         
@@ -396,6 +447,17 @@ class adminUserWindow extends singletonWindow {
             
             @Override
             public void handle(ActionEvent event) {
+                for(Customer b: data) {
+                    if(b.getSelected().isSelected()) {
+                        handler.removeBook(b);
+                    }
+                }
+                ObservableList<Customer> data = null;
+                data = FXCollections.observableArrayList(handler.getUserDB());
+                table.getItems().clear();
+                table.setItems(data);
+                table.refresh();
+                
                 System.out.println("delete button clicked");
                 //do something
             }
@@ -403,6 +465,43 @@ class adminUserWindow extends singletonWindow {
         delete.setMinWidth(60);
         
         bottomButtons.getChildren().add(delete);
+        
+         add = new Button();
+        
+        add.setText("Add");
+        add.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                handler.createBook("username","password",0);
+                ObservableList<User> data = null;
+                data = FXCollections.observableArrayList(handler.getUserDB());
+                table.getItems().clear();
+                table.setItems(data);
+                table.refresh();
+                System.out.println("add button clicked");
+                //do something
+            }
+        });
+        add.setMinWidth(60);
+        
+        bottomButtons.getChildren().add(add);
+        
+        save = new Button();
+        
+        save.setText("Save");
+        save.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                handler.export();
+                System.out.println("save button clicked");
+                //do something
+            }
+        });
+        save.setMinWidth(60);
+        
+        bottomButtons.getChildren().add(save);
         
         mainVertical.getChildren().add(subVertical);
         mainVertical.getChildren().add(bottomButtons);

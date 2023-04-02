@@ -27,6 +27,7 @@ import javafx.scene.control.CheckBox;
             }else{
                 this.Status=new Gold();
             }
+            this.selected = new CheckBox();
         }
         
         public int getPoints(){
@@ -79,5 +80,16 @@ import javafx.scene.control.CheckBox;
         
         protected void setSilver(){
             Status.setSilver(this);
+        }
+
+        public CheckBox getSelected() {
+            return selected;
+        }
+        public void setSelected(CheckBox selected) {
+            this.selected = selected;
+        }
+        
+        public String toString(){
+            return points+","+this.getUsername()+","+this.getPassword()+"\n";
         }
     }
