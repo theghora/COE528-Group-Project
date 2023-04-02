@@ -15,7 +15,7 @@ public class loginHandler {
     
     private static loginHandler instance;
     private static Customer customer;
-    private ArrayList<User> users;
+    private ArrayList<Customer> users;
 
     private loginHandler() {
         this.reload();
@@ -70,7 +70,7 @@ public class loginHandler {
     }
     
     boolean reload(){
-        users = new ArrayList<User>();
+        users = new ArrayList<Customer>();
         try {
             BufferedReader read = new BufferedReader(new FileReader(CUSTOMERS_FILE_PATH));
             String s;
@@ -85,7 +85,11 @@ public class loginHandler {
             return false;
         }
     }
-    public ArrayList<User> getUserDB(){
+    
+    public void createBook(String u, String p, int po){
+        users.add(new Customer(u,p,po));
+    }
+    public ArrayList<Customer> getUserDB(){
         //yes this exposes the rep now stfu
         return users;
     }

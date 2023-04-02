@@ -16,8 +16,10 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
@@ -137,7 +139,7 @@ class adminBookWindow extends singletonWindow {
     VBox mainVertical, subVertical;
     HBox bottomButtons;
     ArrayList<HBox> listItems;
-    Button delete,back,add;
+    Button delete,back,add,save;
     TableView table;
     bookHandler handler = new bookHandler();
     ObservableList<bookHandler.book> data;
@@ -162,6 +164,19 @@ class adminBookWindow extends singletonWindow {
         TableColumn priceCol = new TableColumn("Price");
         
         titleCol.setCellValueFactory( new PropertyValueFactory<book, String>("title") );
+        
+        titleCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        titleCol.setOnEditCommit(
+            new EventHandler<CellEditEvent<book, String>>() {
+                @Override
+                public void handle(CellEditEvent<book, String> t) {
+                    ((book) t.getTableView().getItems().get(
+                        t.getTablePosition().getRow())
+                        ).setTitle(t.getNewValue());
+                }
+            }
+        );
+        
         priceCol.setCellValueFactory( new PropertyValueFactory<book, Integer>("price") );
         
         table.setItems(data);
@@ -205,6 +220,37 @@ class adminBookWindow extends singletonWindow {
         
         bottomButtons.getChildren().add(delete);
         
+        add = new Button();
+        
+        add.setText("Add");
+        add.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("add button clicked");
+                //do something
+            }
+        });
+        add.setMinWidth(60);
+        
+        bottomButtons.getChildren().add(add);
+        
+        save = new Button();
+        
+        save.setText("Save");
+        save.setOnAction(new EventHandler<ActionEvent>() {
+            
+            @Override
+            public void handle(ActionEvent event) {
+                handler.export();
+                System.out.println("save button clicked");
+                //do something
+            }
+        });
+        save.setMinWidth(60);
+        
+        bottomButtons.getChildren().add(save);
+        
         mainVertical.getChildren().add(subVertical);
         mainVertical.getChildren().add(bottomButtons);
         
@@ -242,7 +288,7 @@ class adminUserWindow extends singletonWindow {
     
     private adminUserWindow(){
         
-        ObservableList<User> data = FXCollections.observableArrayList(handler.getUserDB());
+        ObservableList<Customer> data = FXCollections.observableArrayList(handler.getUserDB());
 
         mainVertical = new VBox();
         subVertical = new VBox();
@@ -253,12 +299,14 @@ class adminUserWindow extends singletonWindow {
         table.setEditable(true);
         TableColumn nameCol = new TableColumn("Username");
         TableColumn passwordCol = new TableColumn("Password");
+        TableColumn pointsCol = new TableColumn("Points");
         
-        nameCol.setCellValueFactory( new PropertyValueFactory<User, String>("username") );
-        passwordCol.setCellValueFactory( new PropertyValueFactory<User, String>("password") );
+        nameCol.setCellValueFactory( new PropertyValueFactory<Customer, String>("username") );
+        passwordCol.setCellValueFactory( new PropertyValueFactory<Customer, String>("password") );
+        pointsCol.setCellValueFactory( new PropertyValueFactory<Customer, Integer>("points") );
         
         table.setItems(data);
-        table.getColumns().addAll(nameCol, passwordCol);
+        table.getColumns().addAll(nameCol, passwordCol, pointsCol);
         
         subVertical.getChildren().add(table);
         

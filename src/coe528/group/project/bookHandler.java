@@ -58,7 +58,7 @@ public class bookHandler {
         
         @Override
         public String toString(){
-            return ""+price+"#$"+title;
+            return ""+price+"#$"+title+"\n";
         }
     }
     
@@ -87,7 +87,7 @@ public class bookHandler {
 
     public boolean export(){
         try {
-            BufferedWriter write = new BufferedWriter(new FileWriter("books.txt", true));
+            BufferedWriter write = new BufferedWriter(new FileWriter("books.txt", false));
             for(book x: bookDB){
                 write.append(x.toString(), 0, x.toString().length());
                 System.out.println(x.toString());
