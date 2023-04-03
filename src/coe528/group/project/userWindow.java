@@ -113,6 +113,14 @@ public class userWindow extends singletonWindow {
         p.setTitle("User Window");
                vbox = new VBox();
         
+               
+        ObservableList<bookHandler.book> data = null;
+        data = FXCollections.observableArrayList(handler.getBookDB());
+        bookTable.getItems().clear();
+        bookTable.setItems(data);
+        bookTable.refresh();     
+               
+               
         // Alignment and Spacing
         vbox.setAlignment(Pos.CENTER);
         vbox.setPadding(new Insets(16));
