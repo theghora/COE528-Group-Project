@@ -116,7 +116,6 @@ public class userWindow extends singletonWindow {
                
         ObservableList<bookHandler.book> data = null;
         data = FXCollections.observableArrayList(handler.getBookDB());
-        bookTable.getItems().clear();
         bookTable.setItems(data);
         bookTable.refresh();     
                
