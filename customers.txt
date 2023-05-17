@@ -1,6 +1,6 @@
 1000,Bob,sarah
 500,Elmo,peter
 750,Omran,taha
-250,Indian,ahraz
+250,hello,ahraz
 700,Khan,ayesha
 750,username,password
